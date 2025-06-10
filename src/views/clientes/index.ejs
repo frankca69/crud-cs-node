@@ -1,0 +1,36 @@
+<h1>Clientes vista</h1>
+
+<a href="clientes/create">Crear cliente</a>
+
+<table>
+    <thead>
+        <tr>
+            <th>nombre</th>         
+        </tr>
+    </thead>
+    <tbody>
+        <% clientes.forEach(cliente => { %>
+            <tr>
+                <td><a href="/clientes/<%= cliente.id%>"><%= cliente.nombre%></a></td>
+                <td>
+                    <a href="/clientes/<%= cliente.id%>/edit">edit</a> |
+                    <form class="form-delete" action="/clientes/<%= cliente.id%>?_method=DELETE" method="post">
+                        <button class="button button--danger" type="submit">borrar</button>
+                    </form>
+                </td>
+            </tr>
+        <% }) %>
+    </tbody>
+</table>
+
+<script>
+  document.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    if (event.target.classList.contains("form-delete")) {
+      if (confirm("¿Esta seguro?")) {
+        event.target.submit();
+      }
+    }
+  });
+</script>

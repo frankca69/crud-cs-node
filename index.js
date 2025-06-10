@@ -3,18 +3,18 @@ require("dotenv").config();
 const express = require("express");
 const app = express();
 const layouts = require('express-ejs-layouts');
-const mainRouter = require("./src/routes/main.router");
-const clientesRouter = require("./src/routes/cliente.router");
 const path = require("path");
+const methodOverride = require("method-override")
 
-
+app.use(methodOverride("_method"))
+app.use(express.urlencoded({extended: false}));
 app.use(express.static(path.join(__dirname,"public")));
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, "src/views"));
 app.use(layouts);
 app.set('layout', 'layouts/layout');
-app.use(mainRouter);
-app.use(clientesRouter);
+app.use(require("./src/routes/main.router"));
+app.use("/clientes", require("./src/routes/cliente.router"));
 
 const PORT = process.env.PORT || 3000;
 
