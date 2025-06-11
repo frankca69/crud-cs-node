@@ -1,3 +1,5 @@
+const model = require("../models/Cliente")
+
 const clientes = [
     {id: 1, nombre:"cliente 1"},
     {id: 2, nombre:"cliente 2"},
@@ -8,74 +10,79 @@ const create = (req, res) => {
     res.render('clientes/create');
 };
 
-const store = (req,res) => {
-    const {nombre} = req.body;
+const store = async (req, res) => {
+  const { nombre, apellido, dni, telefono, correo } = req.body;
 
-    const cliente ={
-        id:Date.now(),
-        nombre,
-    };
-
-    clientes.push(cliente)
-
-    res.redirect("/clientes")
-}
+  try {
+    await model.store({ nombre, apellido, dni, telefono, correo });
+    res.redirect("/clientes");
+  } catch (error) {
+    console.error("Error al guardar cliente:", error);
+    res.status(500).send("Error al guardar cliente");
+  }
+};
  
-const index = (req, res) => {
-    res.render('clientes/index', {clientes});
+const index = async (req, res) => {
+    try {
+        const clientes = await model.getAll();
+        res.render("clientes/index", { clientes });
+    } catch (error) {
+        res.status(500).send("Error al cargar clientes");
+    }
 };
 
-const show = (req, res) => {
-    const {id} = req.params;
-    const cliente = clientes.find((cliente) => cliente.id == id);
+const show = async (req, res) => {
+    const { id } = req.params;
 
-
-    if (!cliente){
-        return res.status(404).send("no hay")
+    try {
+        const cliente = await model.getById(id);
+        if (!cliente) return res.status(404).send("Cliente no encontrado");
+        res.render("clientes/show", { cliente });
+    } catch (error) {
+        res.status(500).send("Error al cargar cliente");
     }
-
-    res.render('clientes/show', {cliente});
 };
 
-const edit = (req, res) => {
-    const {id} = req.params;
-    const cliente = clientes.find((cliente) => cliente.id == id);
 
+const edit = async (req, res) => {
+  const { id } = req.params;
 
-    if (!cliente){
-        return res.status(404).send("no hay")
+  try {
+    const cliente = await model.getById(id);
+    if (!cliente) {
+      return res.status(404).send("Cliente no encontrado");
     }
 
-    res.render("clientes/edit", {cliente})
+    res.render("clientes/edit", { cliente });
+  } catch (error) {
+    console.error("Error al cargar cliente:", error);
+    res.status(500).send("Error al cargar cliente");
+  }
 };
 
-const update = (req, res) => {
-    const {id} = req.params;
-    const {nombre} = req.body;
+const update = async (req, res) => {
+  const { id } = req.params;
+  const { nombre, apellido, dni, telefono, correo } = req.body;
 
-    const cliente = clientes.find((cliente) => cliente.id == id);
-
-
-    if (!cliente){
-        return res.status(404).send("no hay")
-    }
-
-    cliente.nombre = nombre;
-
-    res.redirect("/clientes")
+  try {
+    await model.updateCliente(id, { nombre, apellido, dni, telefono, correo });
+    res.redirect("/clientes");
+  } catch (error) {
+    console.error("Error al actualizar cliente:", error);
+    res.status(500).send("Error al actualizar cliente");
+  }
 };
 
-const destroy = (req, res) => {
-    const {id} = req.params;
-    const index = clientes.findIndex((cliente) => cliente.id == id);
+const destroy = async (req, res) => {
+  const { id } = req.params;
 
-    if (index == -1){
-        return res.status(404).send("no hay")
-    }
-
-    clientes.splice(index, 1)
-
-    res.redirect("/clientes")
+  try {
+    await model.deleteCliente(id);
+    res.redirect("/clientes");
+  } catch (error) {
+    console.error("Error al eliminar cliente:", error);
+    res.status(500).send("Error al eliminar cliente");
+  }
 };
 
 module.exports = {

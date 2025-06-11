@@ -1,21 +1,32 @@
 <h1>Clientes vista</h1>
 
-<a href="clientes/create">Crear cliente</a>
+<a href="/clientes/create">Crear cliente</a>
 
-<table>
+<table border="1" cellpadding="8" cellspacing="0">
     <thead>
         <tr>
-            <th>nombre</th>         
+            <th>ID</th>
+            <th>Nombre</th>         
+            <th>Apellido</th>         
+            <th>DNI</th>         
+            <th>Teléfono</th>         
+            <th>Correo</th>         
+            <th>Acciones</th>
         </tr>
     </thead>
     <tbody>
         <% clientes.forEach(cliente => { %>
             <tr>
-                <td><a href="/clientes/<%= cliente.id%>"><%= cliente.nombre%></a></td>
+                <td><%= cliente.id %></td>
+                <td><a href="/clientes/<%= cliente.id %>"><%= cliente.nombre %></a></td>
+                <td><%= cliente.apellido %></td>
+                <td><%= cliente.dni %></td>
+                <td><%= cliente.telefono %></td>
+                <td><%= cliente.correo %></td>
                 <td>
-                    <a href="/clientes/<%= cliente.id%>/edit">edit</a> |
-                    <form class="form-delete" action="/clientes/<%= cliente.id%>?_method=DELETE" method="post">
-                        <button class="button button--danger" type="submit">borrar</button>
+                    <a href="/clientes/<%= cliente.id %>/edit">Editar</a> |
+                    <form class="form-delete" action="/clientes/<%= cliente.id %>?_method=DELETE" method="post" style="display:inline;">
+                        <button class="button button--danger" type="submit">Borrar</button>
                     </form>
                 </td>
             </tr>
@@ -25,11 +36,9 @@
 
 <script>
   document.addEventListener("submit", (event) => {
-    event.preventDefault();
-
     if (event.target.classList.contains("form-delete")) {
-      if (confirm("¿Esta seguro?")) {
-        event.target.submit();
+      if (!confirm("¿Está seguro de que desea borrar este cliente?")) {
+        event.preventDefault();
       }
     }
   });
