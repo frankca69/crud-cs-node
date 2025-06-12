@@ -1,9 +1,29 @@
-<h2>Nuevo Cliente</h2>
-<form action="/clientes" method="POST">
-  <input type="text" name="nombre" placeholder="Nombre" required><br>
-  <input type="text" name="apellido" placeholder="Apellido" required><br>
-  <input type="text" name="dni" placeholder="DNI" required><br>
-  <input type="text" name="telefono" placeholder="Teléfono" required><br>
-  <input type="email" name="correo" placeholder="Correo" required><br>
+<h1>Crear Cliente</h1>
+
+<% if (typeof error !== 'undefined') { %>
+  <p style="color:red;"><%= error %></p>
+<% } %>
+
+<form action="/clientes" method="post">
+  <div>
+    <label for="nombre">Nombre:</label>
+    <input type="text" name="nombre" id="nombre" required>
+  </div>
+  <div>
+    <label for="apellido">Apellido:</label>
+    <input type="text" name="apellido" id="apellido" required>
+  </div>
+  <div>
+    <label for="dni">DNI:</label>
+    <input type="text" name="dni" id="dni" required>
+  </div>
+  <div>
+    <label for="telefono">Teléfono:</label>
+    <input type="text" name="telefono" id="telefono">
+  </div>
+  <div>
+    <label for="correo">Correo:</label>
+    <input type="email" name="correo" id="correo">
+  </div>
   <button type="submit">Guardar</button>
 </form>

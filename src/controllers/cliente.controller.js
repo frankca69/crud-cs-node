@@ -1,11 +1,5 @@
 const model = require("../models/Cliente")
 
-const clientes = [
-    {id: 1, nombre:"cliente 1"},
-    {id: 2, nombre:"cliente 2"},
-    {id: 3, nombre:"cliente 3"}
-];
-
 const create = (req, res) => {
     res.render('clientes/create');
 };
@@ -14,6 +8,14 @@ const store = async (req, res) => {
   const { nombre, apellido, dni, telefono, correo } = req.body;
 
   try {
+    const dniExiste = await model.existsDNI(dni);
+
+    if (dniExiste) {
+      return res.render("clientes/create", {
+        error: "El DNI ya está registrado.",
+      });
+    }
+
     await model.store({ nombre, apellido, dni, telefono, correo });
     res.redirect("/clientes");
   } catch (error) {
@@ -21,6 +23,7 @@ const store = async (req, res) => {
     res.status(500).send("Error al guardar cliente");
   }
 };
+
  
 const index = async (req, res) => {
     try {

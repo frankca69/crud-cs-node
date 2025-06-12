@@ -17,6 +17,18 @@ const store = async ({ nombre, apellido, dni, telefono, correo }) => {
   }
 };
 
+const existsDNI = async (dni) => {
+  const query = `SELECT id FROM clientes WHERE dni = $1`;
+  const values = [dni];
+
+  try {
+    const result = await pool.query(query, values);
+    return result.rows.length > 0; // true si existe
+  } catch (error) {
+    throw error;
+  }
+};
+
 const getAll = async () => {
   try {
     const result = await pool.query('SELECT * FROM clientes ORDER BY id');
@@ -70,5 +82,6 @@ module.exports = {
   getAll,
   getById,
   updateCliente,
-  deleteCliente
+  deleteCliente,
+  existsDNI,
 };
