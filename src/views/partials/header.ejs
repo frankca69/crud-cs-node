@@ -1,6 +1,12 @@
 <header>
-    <nav>
-        <a href="/">Inicio</a>
-        <a href="/clientes">Clientes</a>
-    </nav>
+  <nav>
+    <a href="/">Inicio</a>
+    <a href="/clientes">Clientes</a>
+
+    <% if (typeof user !== 'undefined') { %>
+      <form action="/sessions/logout" method="POST" style="display: inline;">
+        <button type="submit">Cerrar sesión (<%= user.username %>)</button>
+      </form>
+    <% } %>
+  </nav>
 </header>

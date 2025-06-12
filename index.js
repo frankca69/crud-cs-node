@@ -18,8 +18,12 @@ app.set('views', path.join(__dirname, "src/views"));
 app.use(layouts);
 app.set('layout', 'layouts/layout');
 
+app.use("/sessions", require("./src/routes/session.router"));
+app.use((req, res, next) => {
+  res.locals.user = req.session.user;
+  next();
+});
 app.use(requireLogin);
-app.use("/sesion", require("./src/routes/session.router"));
 app.use(require("./src/routes/main.router"));
 app.use("/clientes", require("./src/routes/cliente.router"));
 
