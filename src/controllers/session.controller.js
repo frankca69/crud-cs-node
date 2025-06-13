@@ -44,7 +44,7 @@ const login = async (req, res) => {
       role: user.role,
     };
 
-    res.redirect('/'); // Redirigir al home o dashboard según el rol
+    return res.redirect('/dashboard');
   } catch (err) {
     console.error(err);
     res.send('Error al iniciar sesión');

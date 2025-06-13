@@ -23,7 +23,9 @@ app.use((req, res, next) => {
   res.locals.user = req.session.user;
   next();
 });
+
 app.use(requireLogin);
+app.use('/dashboard', require('./src/routes/dashboard.router'));
 app.use(require("./src/routes/main.router"));
 app.use("/clientes", require("./src/routes/cliente.router"));
 
