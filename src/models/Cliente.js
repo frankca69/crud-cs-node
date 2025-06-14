@@ -2,7 +2,7 @@ const pool = require("./pg");
 
 const store = async ({ nombre, apellido, dni, telefono, correo }) => {
   const query = `
-    INSERT INTO clientes (nombre, apellido, dni, telefono, correo)
+    INSERT INTO clientes (nombre, apellido, dni, telefono, email)
     VALUES ($1, $2, $3, $4, $5)
     RETURNING *;
   `;
@@ -31,7 +31,9 @@ const existsDNI = async (dni) => {
 
 const getAll = async () => {
   try {
-    const result = await pool.query('SELECT * FROM clientes ORDER BY id');
+    const result = await pool.query(
+      "SELECT * FROM clientes WHERE estado = 'activo' ORDER BY id"
+    );
     return result.rows;
   } catch (error) {
     console.error('Error al obtener clientes:', error);
@@ -52,7 +54,7 @@ const getById = async (id) => {
 const updateCliente = async (id, { nombre, apellido, dni, telefono, correo }) => {
   const query = `
     UPDATE clientes
-    SET nombre = $1, apellido = $2, dni = $3, telefono = $4, correo = $5
+    SET nombre = $1, apellido = $2, dni = $3, telefono = $4, email = $5
     WHERE id = $6
   `;
   const values = [nombre, apellido, dni, telefono, correo, id];
@@ -64,13 +66,16 @@ const updateCliente = async (id, { nombre, apellido, dni, telefono, correo }) =>
   }
 };
 
-const deleteCliente = async (id) => {
-  const query = `DELETE FROM clientes WHERE id = $1`;
+
+
+const softDelete = async (id) => {
+  const query = `UPDATE clientes SET estado = 'eliminado' WHERE id = $1`;
   const values = [id];
 
   try {
     await pool.query(query, values);
   } catch (error) {
+    console.error("Error al cambiar estado a eliminado:", error);
     throw error;
   }
 };
@@ -82,6 +87,6 @@ module.exports = {
   getAll,
   getById,
   updateCliente,
-  deleteCliente,
   existsDNI,
+  softDelete
 };

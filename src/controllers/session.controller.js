@@ -15,9 +15,26 @@ const storec = async (req, res) => {
     const existingUser = await SessionModel.findUserByUsername(username);
     if (existingUser) return res.send('Nombre de usuario ya existe');
 
-    const dniExists = await SessionModel.isDniTaken(dni);
-    if (dniExists) return res.send('DNI ya registrado');
+    const clienteExistente = await SessionModel.findClienteByDni(dni);
 
+    if (clienteExistente) {
+      // Cliente existe por DNI, verificar si tiene user_id
+      if (clienteExistente.user_id) {
+        return res.send('Este DNI ya está registrado con una cuenta');
+      }
+
+      // Crear el nuevo usuario
+      const userId = await SessionModel.createUser(username, password);
+
+      // Asociar el user al cliente existente y actualizar datos
+      await SessionModel.updateClienteWithUser(clienteExistente.id, userId, {
+        nombre, apellido, telefono, email
+      });
+
+      return res.redirect('/sessions');
+    }
+
+    // Si no existe el cliente, crear usuario y cliente nuevo
     const userId = await SessionModel.createUser(username, password);
     await SessionModel.createCliente(userId, nombre, apellido, dni, telefono, email);
 

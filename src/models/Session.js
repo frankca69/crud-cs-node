@@ -39,10 +39,31 @@ const validateUserCredentials = async (username, password) => {
   return user;
 };
 
+// Session.js
+const findClienteByDni = async (dni) => {
+  const query = 'SELECT * FROM clientes WHERE dni = $1';
+  const result = await pool.query(query, [dni]);
+  return result.rows[0];
+};
+
+const updateClienteWithUser = async (clienteId, userId, datos) => {
+  const { nombre, apellido, telefono, email } = datos;
+  const query = `
+    UPDATE clientes
+    SET user_id = $1, nombre = $2, apellido = $3, telefono = $4, email = $5
+    WHERE id = $6
+  `;
+  const values = [userId, nombre, apellido, telefono, email, clienteId];
+  await pool.query(query, values);
+};
+
+
 module.exports = {
   findUserByUsername,
   isDniTaken,
   createUser,
   createCliente,
-  validateUserCredentials
+  validateUserCredentials,
+  findClienteByDni,
+  updateClienteWithUser
 };

@@ -80,7 +80,7 @@ const destroy = async (req, res) => {
   const { id } = req.params;
 
   try {
-    await model.deleteCliente(id);
+    await model.softDelete(id); // 👈 ahora llama al softDelete
     res.redirect("/clientes");
   } catch (error) {
     console.error("Error al eliminar cliente:", error);
