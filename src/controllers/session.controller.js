@@ -43,7 +43,7 @@ const login = async (req, res) => {
       username: user.username,
       role: user.role,
     };
-
+    console.log('Usuario en sesión:', req.session.user);
     return res.redirect('/dashboard');
   } catch (err) {
     console.error(err);
