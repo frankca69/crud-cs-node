@@ -1,0 +1,22 @@
+<h2>Editar Chofer</h2>
+
+<form action="/choferes/<%= chofer.id %>?_method=PUT" method="POST">
+  <label>Nombre:</label>
+  <input type="text" name="nombre" value="<%= chofer.nombre %>" required><br>
+
+  <label>Apellido:</label>
+  <input type="text" name="apellido" value="<%= chofer.apellido %>" required><br>
+
+  <label>DNI:</label>
+  <input type="text" name="dni" value="<%= chofer.dni %>" required><br>
+
+  <label>Teléfono:</label>
+  <input type="text" name="telefono" value="<%= chofer.telefono %>"><br>
+
+  <label>Correo:</label>
+  <input type="email" name="email" value="<%= chofer.email %>"><br>
+
+  <button type="submit">Actualizar</button>
+</form>
+
+<a href="/chofere">Volver</a>

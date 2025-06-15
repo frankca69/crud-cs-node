@@ -27,6 +27,7 @@ app.use((req, res, next) => {
 app.use(requireLogin);
 app.use('/dashboard', require('./src/routes/dashboard.router'));
 app.use(require("./src/routes/main.router"));
+app.use("/choferes", require("./src/routes/chofer.router"));
 app.use("/clientes", require("./src/routes/cliente.router"));
 
 const PORT = process.env.PORT || 3000;

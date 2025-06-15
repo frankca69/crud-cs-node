@@ -1,0 +1,45 @@
+<h1>Lista de Choferes - <%= estado %></h1>
+
+<a href="/choferes/create">Agregar Chofer</a> |
+<a href="/choferes?estado=activo">Activos</a> |
+<a href="/choferes?estado=suspendido">Suspendidos</a>
+
+<table border="1">
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>Apellido</th>
+      <th>DNI</th>
+      <th>Teléfono</th>
+      <th>Correo</th>
+      <th>Usuario</th>
+      <th>Estado</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% choferes.forEach(chofer => { %>
+      <tr>
+        <td><a href="/choferes/<%= chofer.id %>"><%= chofer.nombre %></a></td>
+        <td><%= chofer.apellido %></td>
+        <td><%= chofer.dni %></td>
+        <td><%= chofer.telefono %></td>
+        <td><%= chofer.email %></td>
+        <td><%= chofer.username || '—' %></td>
+        <td><%= chofer.estado %></td>
+        <td>
+          <a href="/choferes/<%= chofer.id %>/edit">Editar</a>
+          <form action="/choferes/<%= chofer.id %>?_method=DELETE" method="POST" style="display:inline;" onsubmit="return confirm('¿Eliminar chofer?')">
+            <button type="submit">Eliminar</button>
+          </form>
+          <form action="/choferes/<%= chofer.id %>/estado?_method=PUT" method="POST" style="display:inline;">
+            <select name="estado" onchange="this.form.submit()">
+              <option value="activo" <%= chofer.estado === 'activo' ? 'selected' : '' %>>Activo</option>
+              <option value="suspendido" <%= chofer.estado === 'suspendido' ? 'selected' : '' %>>Suspendido</option>
+            </select>
+          </form>
+        </td>
+      </tr>
+    <% }) %>
+  </tbody>
+</table>
