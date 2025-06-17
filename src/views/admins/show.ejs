@@ -1,12 +1,12 @@
-<h2>Detalles del Administrador</h2>
+<h2 class="page-title">Detalles del Administrador</h2>
 
-<ul>
-  <li><strong>Nombre:</strong> <%= admin.nombre %></li>
-  <li><strong>Apellido:</strong> <%= admin.apellido %></li>
-  <li><strong>DNI:</strong> <%= admin.dni %></li>
-  <li><strong>Teléfono:</strong> <%= admin.telefono %></li>
-  <li><strong>Correo:</strong> <%= admin.email %></li>
-  <li><strong>Estado:</strong> <%= admin.estado %></li>
+<ul class="details-list">
+  <li class="detail-item"><strong class="detail-label">Nombre:</strong> <span class="detail-value"><%= admin.nombre %></span></li>
+  <li class="detail-item"><strong class="detail-label">Apellido:</strong> <span class="detail-value"><%= admin.apellido %></span></li>
+  <li class="detail-item"><strong class="detail-label">DNI:</strong> <span class="detail-value"><%= admin.dni %></span></li>
+  <li class="detail-item"><strong class="detail-label">Teléfono:</strong> <span class="detail-value"><%= admin.telefono %></span></li>
+  <li class="detail-item"><strong class="detail-label">Correo:</strong> <span class="detail-value"><%= admin.email %></span></li>
+  <li class="detail-item"><strong class="detail-label">Estado:</strong> <span class="detail-value"><%= admin.estado %></span></li>
 </ul>
 
-<a href="/admins">Volver</a>
+<a class="action-link back-link" href="/admins">Volver</a>

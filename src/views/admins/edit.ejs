@@ -1,21 +1,31 @@
-<h2>Editar Administrador</h2>
+<h2 class="page-title">Editar Administrador</h2>
 
-<form action="/admins/<%= admin.id %>?_method=PUT" method="POST">
-  <label>Nombre:</label>
-  <input type="text" name="nombre" value="<%= admin.nombre %>" required><br>
+<form class="form-styled" action="/admins/<%= admin.id %>?_method=PUT" method="POST">
+  <div class="form-group">
+    <label class="form-label">Nombre:</label>
+    <input class="form-input form-input-text" type="text" name="nombre" value="<%= admin.nombre %>" required>
+  </div>
 
-  <label>Apellido:</label>
-  <input type="text" name="apellido" value="<%= admin.apellido %>" required><br>
+  <div class="form-group">
+    <label class="form-label">Apellido:</label>
+    <input class="form-input form-input-text" type="text" name="apellido" value="<%= admin.apellido %>" required>
+  </div>
 
-  <label>DNI:</label>
-  <input type="text" name="dni" value="<%= admin.dni %>" required><br>
+  <div class="form-group">
+    <label class="form-label">DNI:</label>
+    <input class="form-input form-input-text" type="text" name="dni" value="<%= admin.dni %>" required>
+  </div>
 
-  <label>Teléfono:</label>
-  <input type="text" name="telefono" value="<%= admin.telefono %>"><br>
+  <div class="form-group">
+    <label class="form-label">Teléfono:</label>
+    <input class="form-input form-input-text" type="text" name="telefono" value="<%= admin.telefono %>">
+  </div>
 
-  <label>Correo:</label>
-  <input type="email" name="email" value="<%= admin.email %>"><br>
+  <div class="form-group">
+    <label class="form-label">Correo:</label>
+    <input class="form-input form-input-email" type="email" name="email" value="<%= admin.email %>">
+  </div>
 
-  <button type="submit">Actualizar</button>
+  <button class="action-button submit-button" type="submit">Actualizar</button>
 </form>
-<a href="/admins">Volver</a>
+<a class="action-link back-link" href="/admins">Volver</a>

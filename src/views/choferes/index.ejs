@@ -1,11 +1,13 @@
-<h1>Lista de Choferes - <%= estado %></h1>
+<h1 class="page-title">Lista de Choferes - <%= estado %></h1>
 
-<a href="/choferes/create">Agregar Chofer</a> |
-<a href="/choferes?estado=activo">Activos</a> |
-<a href="/choferes?estado=suspendido">Suspendidos</a>
+<div class="filter-links-group">
+  <a class="action-button create-button" href="/choferes/create">Agregar Chofer</a> |
+  <a class="filter-link" href="/choferes?estado=activo">Activos</a> |
+  <a class="filter-link" href="/choferes?estado=suspendido">Suspendidos</a>
+</div>
 
-<table>
-  <thead>
+<table class="content-table">
+  <thead class="table-header">
     <tr>
       <th>Nombre</th>
       <th>Apellido</th>
@@ -20,7 +22,7 @@
   <tbody>
     <% choferes.forEach(chofer => { %>
       <tr>
-        <td><a href="/choferes/<%= chofer.id %>"><%= chofer.nombre %></a></td>
+        <td><a class="action-link" href="/choferes/<%= chofer.id %>"><%= chofer.nombre %></a></td>
         <td><%= chofer.apellido %></td>
         <td><%= chofer.dni %></td>
         <td><%= chofer.telefono %></td>
@@ -28,12 +30,12 @@
         <td><%= chofer.username || '—' %></td>
         <td><%= chofer.estado %></td>
         <td>
-          <a href="/choferes/<%= chofer.id %>/edit">Editar</a>
-          <form action="/choferes/<%= chofer.id %>?_method=DELETE" method="POST" style="display:inline;" onsubmit="return confirm('¿Eliminar chofer?')">
-            <button type="submit">Eliminar</button>
+          <a class="action-link" href="/choferes/<%= chofer.id %>/edit">Editar</a>
+          <form class="delete-form" action="/choferes/<%= chofer.id %>?_method=DELETE" method="POST" onsubmit="return confirm('¿Eliminar chofer?')">
+            <button class="action-button delete-button" type="submit">Eliminar</button>
           </form>
-          <form action="/choferes/<%= chofer.id %>/estado?_method=PUT" method="POST" style="display:inline;">
-            <select name="estado" onchange="this.form.submit()">
+          <form class="status-form" action="/choferes/<%= chofer.id %>/estado?_method=PUT" method="POST">
+            <select class="form-input form-input-select status-select" name="estado" onchange="this.form.submit()">
               <option value="activo" <%= chofer.estado === 'activo' ? 'selected' : '' %>>Activo</option>
               <option value="suspendido" <%= chofer.estado === 'suspendido' ? 'selected' : '' %>>Suspendido</option>
             </select>

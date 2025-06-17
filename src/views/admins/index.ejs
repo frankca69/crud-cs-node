@@ -1,11 +1,13 @@
-<h1>Lista de Administradores (<%= estado %>)</h1>
+<h1 class="page-title">Lista de Administradores (<%= estado %>)</h1>
 
-<a href="/admins/create">Agregar Admin</a> |
-<a href="/admins?estado=activo">Activos</a> |
-<a href="/admins?estado=suspendido">Suspendidos</a>
+<div class="filter-links-group">
+  <a class="action-button create-button" href="/admins/create">Agregar Admin</a> |
+  <a class="filter-link" href="/admins?estado=activo">Activos</a> |
+  <a class="filter-link" href="/admins?estado=suspendido">Suspendidos</a>
+</div>
 
-<table border="1">
-  <thead>
+<table class="content-table">
+  <thead class="table-header">
     <tr>
       <th>Nombre</th>
       <th>Apellido</th>
@@ -18,15 +20,15 @@
   <tbody>
     <% admins.forEach(admin => { %>
       <tr>
-        <td><a href="/admins/<%= admin.id %>"><%= admin.nombre %></a></td>
+        <td><a class="action-link" href="/admins/<%= admin.id %>"><%= admin.nombre %></a></td>
         <td><%= admin.apellido %></td>
         <td><%= admin.email %></td>
         <td><%= admin.username %></td>
         <td><%= admin.estado %></td>
         <td>
-          <a href="/admins/<%= admin.id %>/edit">Editar</a>
-          <form method="POST" action="/admins/<%= admin.id %>/estado?_method=PUT" style="display:inline;">
-            <select name="estado" onchange="this.form.submit()">
+          <a class="action-link" href="/admins/<%= admin.id %>/edit">Editar</a>
+          <form class="status-form" method="POST" action="/admins/<%= admin.id %>/estado?_method=PUT">
+            <select class="form-input form-input-select status-select" name="estado" onchange="this.form.submit()">
               <option value="activo" <%= admin.estado === 'activo' ? 'selected' : '' %>>Activo</option>
               <option value="suspendido" <%= admin.estado === 'suspendido' ? 'selected' : '' %>>Suspendido</option>
               <option value="eliminado" <%= admin.estado === 'eliminado' ? 'selected' : '' %>>Eliminado</option>
