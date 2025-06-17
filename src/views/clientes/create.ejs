@@ -1,29 +1,29 @@
-<h1 class="titulo">Crear Cliente</h1>
+<h1 class="page-title">Crear Cliente</h1>
 
 <% if (typeof error !== 'undefined') { %>
-  <p style="color:red;"><%= error %></p>
+  <p class="error-message"><%= error %></p>
 <% } %>
 
-<form action="/clientes" method="post">
-  <div>
-    <label for="nombre">Nombre:</label>
-    <input type="text" name="nombre" id="nombre" required>
+<form class="form-styled" action="/clientes" method="post">
+  <div class="form-group">
+    <label class="form-label" for="nombre">Nombre:</label>
+    <input class="form-input form-input-text" type="text" name="nombre" id="nombre" required>
   </div>
-  <div>
-    <label for="apellido">Apellido:</label>
-    <input type="text" name="apellido" id="apellido" required>
+  <div class="form-group">
+    <label class="form-label" for="apellido">Apellido:</label>
+    <input class="form-input form-input-text" type="text" name="apellido" id="apellido" required>
   </div>
-  <div>
-    <label for="dni">DNI:</label>
-    <input type="text" name="dni" id="dni" required>
+  <div class="form-group">
+    <label class="form-label" for="dni">DNI:</label>
+    <input class="form-input form-input-text" type="text" name="dni" id="dni" required>
   </div>
-  <div>
-    <label for="telefono">Teléfono:</label>
-    <input type="text" name="telefono" id="telefono">
+  <div class="form-group">
+    <label class="form-label" for="telefono">Teléfono:</label>
+    <input class="form-input form-input-text" type="text" name="telefono" id="telefono">
   </div>
-  <div>
-    <label for="correo">Correo:</label>
-    <input type="email" name="correo" id="correo">
+  <div class="form-group">
+    <label class="form-label" for="correo">Correo:</label>
+    <input class="form-input form-input-email" type="email" name="correo" id="correo">
   </div>
-  <button type="submit">Guardar</button>
+  <button class="action-button submit-button" type="submit">Guardar</button>
 </form>

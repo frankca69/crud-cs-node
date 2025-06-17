@@ -1,31 +1,45 @@
-<h2>Registrar Administrador</h2>
+<h2 class="page-title">Registrar Administrador</h2>
 
 <% if (error) { %>
-  <p style="color:red;"><%= error %></p>
+  <p class="error-message"><%= error %></p>
 <% } %>
 
-<form action="/admins" method="POST">
-  <label>Nombre:</label>
-  <input type="text" name="nombre" required><br>
+<form class="form-styled" action="/admins" method="POST">
+  <div class="form-group">
+    <label class="form-label">Nombre:</label>
+    <input class="form-input form-input-text" type="text" name="nombre" required>
+  </div>
 
-  <label>Apellido:</label>
-  <input type="text" name="apellido" required><br>
+  <div class="form-group">
+    <label class="form-label">Apellido:</label>
+    <input class="form-input form-input-text" type="text" name="apellido" required>
+  </div>
 
-  <label>DNI:</label>
-  <input type="text" name="dni" required><br>
+  <div class="form-group">
+    <label class="form-label">DNI:</label>
+    <input class="form-input form-input-text" type="text" name="dni" required>
+  </div>
 
-  <label>Teléfono:</label>
-  <input type="text" name="telefono"><br>
+  <div class="form-group">
+    <label class="form-label">Teléfono:</label>
+    <input class="form-input form-input-text" type="text" name="telefono">
+  </div>
 
-  <label>Correo:</label>
-  <input type="email" name="email"><br>
+  <div class="form-group">
+    <label class="form-label">Correo:</label>
+    <input class="form-input form-input-email" type="email" name="email">
+  </div>
 
-  <label>Usuario:</label>
-  <input type="text" name="username" required><br>
+  <div class="form-group">
+    <label class="form-label">Usuario:</label>
+    <input class="form-input form-input-text" type="text" name="username" required>
+  </div>
 
-  <label>Contraseña:</label>
-  <input type="password" name="password" required><br>
+  <div class="form-group">
+    <label class="form-label">Contraseña:</label>
+    <input class="form-input form-input-password" type="password" name="password" required>
+  </div>
 
-  <button type="submit">Registrar</button>
+  <button class="action-button submit-button" type="submit">Registrar</button>
 </form>
-<a href="/dashboard">Volver</a>
+<a class="action-link back-link" href="/dashboard">Volver</a>

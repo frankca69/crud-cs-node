@@ -1,10 +1,10 @@
-<h1 class="titulo">Detalle del Cliente</h1>
-<ul>
-  <li>Nombre: <%= cliente.nombre %></li>
-  <li>Apellido: <%= cliente.apellido %></li>
-  <li>DNI: <%= cliente.dni %></li>
-  <li>Teléfono: <%= cliente.telefono %></li>
-  <li>Correo: <%= cliente.email %></li>
+<h1 class="page-title">Detalle del Cliente</h1>
+<ul class="details-list">
+  <li class="detail-item"><strong class="detail-label">Nombre:</strong> <span class="detail-value"><%= cliente.nombre %></span></li>
+  <li class="detail-item"><strong class="detail-label">Apellido:</strong> <span class="detail-value"><%= cliente.apellido %></span></li>
+  <li class="detail-item"><strong class="detail-label">DNI:</strong> <span class="detail-value"><%= cliente.dni %></span></li>
+  <li class="detail-item"><strong class="detail-label">Teléfono:</strong> <span class="detail-value"><%= cliente.telefono %></span></li>
+  <li class="detail-item"><strong class="detail-label">Correo:</strong> <span class="detail-value"><%= cliente.email %></span></li>
 </ul>
 
-<a href="/clientes">← Volver a la lista</a>
+<a class="action-link back-link" href="/clientes">← Volver a la lista</a>
