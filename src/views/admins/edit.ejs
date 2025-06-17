@@ -1,0 +1,21 @@
+<h2>Editar Administrador</h2>
+
+<form action="/admins/<%= admin.id %>?_method=PUT" method="POST">
+  <label>Nombre:</label>
+  <input type="text" name="nombre" value="<%= admin.nombre %>" required><br>
+
+  <label>Apellido:</label>
+  <input type="text" name="apellido" value="<%= admin.apellido %>" required><br>
+
+  <label>DNI:</label>
+  <input type="text" name="dni" value="<%= admin.dni %>" required><br>
+
+  <label>Teléfono:</label>
+  <input type="text" name="telefono" value="<%= admin.telefono %>"><br>
+
+  <label>Correo:</label>
+  <input type="email" name="email" value="<%= admin.email %>"><br>
+
+  <button type="submit">Actualizar</button>
+</form>
+<a href="/admins">Volver</a>
