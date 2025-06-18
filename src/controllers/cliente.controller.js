@@ -8,15 +8,18 @@ const create = (req, res) => {
 const store = async (req, res) => {
   const { nombre, apellido, dni, telefono, correo } = req.body; // 'correo' instead of 'email'
 
+  const trimmedDni = dni ? dni.trim() : '';
+  const trimmedTelefono = telefono ? telefono.trim() : '';
+
   // Server-side validation for DNI and Telefono format
-  if (dni && !/^\d{8}$/.test(dni)) {
+  if (trimmedDni && !/^\d{8}$/.test(trimmedDni)) {
     return res.render('clientes/create', {
       error: 'El DNI debe tener 8 dígitos numéricos.',
       formData: req.body
     });
   }
-  // Assuming 'telefono' can be optional or empty. If not, the condition telefono.trim() !== '' might need adjustment.
-  if (telefono && telefono.trim() !== '' && !/^\d{9}$/.test(telefono)) {
+
+  if (trimmedTelefono && !/^\d{9}$/.test(trimmedTelefono)) {
     return res.render('clientes/create', {
       error: 'El Teléfono debe tener 9 dígitos numéricos.',
       formData: req.body
@@ -24,7 +27,7 @@ const store = async (req, res) => {
   }
 
   try {
-    const dniExiste = await model.existsDNI(dni);
+    const dniExiste = await model.existsDNI(trimmedDni); // Use trimmedDni
 
     if (dniExiste) {
       return res.render("clientes/create", {
@@ -33,7 +36,7 @@ const store = async (req, res) => {
       });
     }
 
-    await model.store({ nombre, apellido, dni, telefono, correo }); // Use 'correo'
+    await model.store({ nombre, apellido, dni: trimmedDni, telefono: trimmedTelefono, correo }); // Use trimmed versions
     res.redirect("/clientes");
   } catch (error) {
     console.error("Error al guardar cliente:", error);
@@ -84,8 +87,11 @@ const update = async (req, res) => {
   const { id } = req.params;
   const { nombre, apellido, dni, telefono, correo } = req.body; // 'correo' instead of 'email'
 
+  const trimmedDni = dni ? dni.trim() : '';
+  const trimmedTelefono = telefono ? telefono.trim() : '';
+
   // Server-side validation for DNI and Telefono format
-  if (dni && !/^\d{8}$/.test(dni)) {
+  if (trimmedDni && !/^\d{8}$/.test(trimmedDni)) {
     const cliente = await model.getById(id);
     return res.render('clientes/edit', {
       error: 'El DNI debe tener 8 dígitos numéricos.',
@@ -93,7 +99,7 @@ const update = async (req, res) => {
       cliente: cliente
     });
   }
-  if (telefono && telefono.trim() !== '' && !/^\d{9}$/.test(telefono)) {
+  if (trimmedTelefono && !/^\d{9}$/.test(trimmedTelefono)) {
     const cliente = await model.getById(id);
     return res.render('clientes/edit', {
       error: 'El Teléfono debe tener 9 dígitos numéricos.',
@@ -105,7 +111,7 @@ const update = async (req, res) => {
   try {
     // Consider DNI uniqueness check here as well if DNI can be changed
     // For now, proceeding with update as per original structure after format validation
-    await model.updateCliente(id, { nombre, apellido, dni, telefono, correo }); // Use 'correo'
+    await model.updateCliente(id, { nombre, apellido, dni: trimmedDni, telefono: trimmedTelefono, correo }); // Use trimmed versions
     res.redirect("/clientes");
   } catch (error) {
     console.error("Error al actualizar cliente:", error);
