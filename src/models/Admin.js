@@ -1,13 +1,16 @@
 //Frank
 const pool = require('./pg');
+const bcrypt = require('bcrypt');
 
 const createUser = async (username, password) => {
+  const saltRounds = 10;
+  const hashedPassword = await bcrypt.hash(password, saltRounds);
   const query = `
     INSERT INTO users (username, password, role)
     VALUES ($1, $2, 'admin')
     RETURNING id;
   `;
-  const result = await pool.query(query, [username, password]);
+  const result = await pool.query(query, [username, hashedPassword]);
   return result.rows[0].id;
 };
 
