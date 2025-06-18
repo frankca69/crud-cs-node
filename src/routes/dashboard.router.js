@@ -11,3 +11,4 @@ router.get('/gerente',tieneRol('gerente') , controller.gerente);
 router.get('/admin',tieneRol('admin') , controller.admin);
 
 module.exports = router;
+

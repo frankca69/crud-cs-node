@@ -1,4 +1,4 @@
-
+//Frank
 function requireLogin(req, res, next) {
   
   if (req.path.startsWith('/sessions')) return next();

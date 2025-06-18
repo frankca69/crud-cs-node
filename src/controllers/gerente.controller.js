@@ -1,3 +1,4 @@
+//Frank
 const model = require('../models/Gerente');
 
 const index = async (req, res) => {
