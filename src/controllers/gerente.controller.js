@@ -14,13 +14,27 @@ const create = async (req, res) => {
 const store = async (req, res) => {
   const { username, password, nombre, apellido, dni, telefono, email } = req.body;
 
+  // Server-side validation
+  if (dni && !/^\d{8}$/.test(dni)) {
+    return res.render('gerentes/create', {
+      error: 'El DNI debe tener 8 dígitos numéricos.',
+      formData: req.body
+    });
+  }
+  if (telefono && telefono.trim() !== '' && !/^\d{9}$/.test(telefono)) {
+    return res.render('gerentes/create', {
+      error: 'El Teléfono debe tener 9 dígitos numéricos.',
+      formData: req.body
+    });
+  }
+
   try {
     const userId = await model.createUser(username, password);
     await model.createGerente({ userId, nombre, apellido, dni, telefono, email });
     res.redirect('/gerentes');
   } catch (error) {
     console.error("Error al crear gerente:", error);
-    res.status(500).render('gerentes/create', { error: 'Error al registrar gerente' });
+    res.status(500).render('gerentes/create', { error: 'Error al registrar gerente', formData: req.body });
   }
 };
 
@@ -38,7 +52,27 @@ const edit = async (req, res) => {
 
 const update = async (req, res) => {
   const { nombre, apellido, dni, telefono, email } = req.body;
-  await model.updateGerente(req.params.id, { nombre, apellido, dni, telefono, email });
+  const gerenteId = req.params.id;
+
+  // Server-side validation
+  if (dni && !/^\d{8}$/.test(dni)) {
+    const gerente = await model.getById(gerenteId);
+    return res.render('gerentes/edit', {
+      error: 'El DNI debe tener 8 dígitos numéricos.',
+      formData: req.body,
+      gerente: gerente
+    });
+  }
+  if (telefono && telefono.trim() !== '' && !/^\d{9}$/.test(telefono)) {
+    const gerente = await model.getById(gerenteId);
+    return res.render('gerentes/edit', {
+      error: 'El Teléfono debe tener 9 dígitos numéricos.',
+      formData: req.body,
+      gerente: gerente
+    });
+  }
+
+  await model.updateGerente(gerenteId, { nombre, apellido, dni, telefono, email });
   res.redirect('/gerentes');
 };
 

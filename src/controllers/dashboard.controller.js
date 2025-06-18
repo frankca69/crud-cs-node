@@ -19,19 +19,19 @@ const redirectByRole = (req, res) => {
 };
 
 const cliente = (req, res) => {
-  res.render('dashboard/cliente');
+  res.render('dashboard/cliente', { user: req.session.user, showHeader: false, showFooter: false });
 };
 
 const chofer = (req, res) => {
-  res.render('dashboard/chofer');
+  res.render('dashboard/chofer', { user: req.session.user, showHeader: false, showFooter: false });
 };
 
 const gerente = (req, res) => {
-  res.render('dashboard/gerente');
+  res.render('dashboard/gerente', { user: req.session.user, showHeader: false, showFooter: false });
 };
 
 const admin = (req, res) => {
-  res.render('dashboard/admin');
+  res.render('dashboard/admin', { user: req.session.user, showHeader: false, showFooter: false });
 };
 
 module.exports = {

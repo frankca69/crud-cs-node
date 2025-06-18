@@ -345,3 +345,13 @@ a:hover {
     padding: 6px 10px; /* Slightly smaller buttons for tables */
     font-size: 0.9em;
 }
+
+/* === Dashboard Menu Styling === */
+.dashboard-menu {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.dashboard-menu li {
+    margin-bottom: 10px; /* Add some space between buttons */
+}

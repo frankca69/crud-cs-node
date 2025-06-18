@@ -13,12 +13,14 @@
 
     <div class="form-group">
         <label class="form-label" for="dni">DNI:</label>
-        <input class="form-input form-input-text" type="text" name="dni" id="dni" value="<%= cliente.dni %>" required>
+    <input class="form-input form-input-text" type="text" name="dni" id="dni" value="<%= cliente.dni %>" required maxlength="8">
+    <span class="error-text" id="dni-error"></span>
     </div>
 
     <div class="form-group">
         <label class="form-label" for="telefono">Teléfono:</label>
-        <input class="form-input form-input-text" type="text" name="telefono" id="telefono" value="<%= cliente.telefono %>" required>
+    <input class="form-input form-input-text" type="text" name="telefono" id="telefono" value="<%= cliente.telefono %>" required maxlength="9">
+    <span class="error-text" id="telefono-error"></span>
     </div>
 
     <div class="form-group">
@@ -29,3 +31,40 @@
     <button class="action-button submit-button" type="submit">Guardar</button>
 </form>
 
+
+<script>
+  const form = document.querySelector('.form-styled');
+  const dniInput = form.querySelector('input[name="dni"]');
+  const telefonoInput = form.querySelector('input[name="telefono"]');
+  const dniError = document.getElementById('dni-error');
+  const telefonoError = document.getElementById('telefono-error');
+
+  form.addEventListener('submit', function(event) {
+    let isValid = true;
+    dniError.textContent = '';
+    telefonoError.textContent = '';
+
+    const dniValue = dniInput.value.trim();
+    const telefonoValue = telefonoInput.value.trim();
+
+    // DNI validation
+    if (dniValue && !/^\\d{8}$/.test(dniValue)) {
+      dniError.textContent = 'El DNI debe tener 8 dígitos numéricos.';
+      isValid = false;
+    }
+
+    // Telefono validation (only if a value is entered, or if required)
+    if (telefonoValue && !/^\\d{9}$/.test(telefonoValue)) {
+      telefonoError.textContent = 'El Teléfono debe tener 9 dígitos numéricos.';
+      isValid = false;
+    } else if (!telefonoValue && telefonoInput.hasAttribute('required')) {
+      telefonoError.textContent = 'El Teléfono es obligatorio.';
+      isValid = false;
+    }
+
+
+    if (!isValid) {
+      event.preventDefault();
+    }
+  });
+</script>
