@@ -8,46 +8,29 @@ const create = (req, res) => {
 const store = async (req, res) => {
   const { nombre, apellido, dni, telefono, correo } = req.body;
 
-  // Process DNI
-  let processedDni = dni ? String(dni).trim() : '';
-  if (processedDni) {
-    processedDni = processedDni.replace(/\D/g, '');
-  }
+  // Basic trimming (optional, but good practice)
+  const finalDni = dni ? String(dni).trim() : '';
+  const finalTelefono = telefono ? String(telefono).trim() : '';
 
-  // Process Telefono
-  let processedTelefono = telefono ? String(telefono).trim() : '';
-  if (processedTelefono) {
-    processedTelefono = processedTelefono.replace(/\D/g, '');
-  }
+  // REMOVED DNI Validation block:
+  // if (!finalDni || finalDni.length !== 8) { ... }
 
-  // DNI Validation (Assuming DNI is mandatory)
-  // Check if original dni was provided and if cleaned version has 8 digits
-  if (!processedDni || processedDni.length !== 8) {
-    return res.render('clientes/create', {
-      error: 'El DNI debe tener 8 dígitos numéricos.',
-      formData: req.body
-    });
-  }
-
-  // Telefono Validation (Optional, but if provided, must be valid)
-  if (processedTelefono && processedTelefono.length !== 9) {
-    return res.render('clientes/create', {
-      error: 'El Teléfono debe tener 9 dígitos numéricos.',
-      formData: req.body
-    });
-  }
+  // REMOVED Telefono Validation block:
+  // if (finalTelefono && finalTelefono.length !== 9) { ... }
 
   try {
-    const dniExiste = await model.existsDNI(processedDni); // Use processedDni
+    // Note: DNI existence check might still be relevant depending on requirements
+    // For now, keeping it as it's a data integrity check, not a format validation.
+    const dniExiste = await model.existsDNI(finalDni);
 
     if (dniExiste) {
       return res.render("clientes/create", {
-        error: "El DNI ya está registrado.",
+        error: "El DNI ya está registrado.", // This is a uniqueness constraint, not format.
         formData: req.body
       });
     }
 
-    await model.store({ nombre, apellido, dni: processedDni, telefono: processedTelefono, correo });
+    await model.store({ nombre, apellido, dni: finalDni, telefono: finalTelefono, correo });
     res.redirect("/clientes");
   } catch (error) {
     console.error("Error al guardar cliente:", error);
@@ -98,42 +81,18 @@ const update = async (req, res) => {
   const { id } = req.params;
   const { nombre, apellido, dni, telefono, correo } = req.body;
 
-  // Process DNI
-  let processedDni = dni ? String(dni).trim() : '';
-  if (processedDni) {
-    processedDni = processedDni.replace(/\D/g, '');
-  }
+  // Basic trimming
+  const finalDni = dni ? String(dni).trim() : '';
+  const finalTelefono = telefono ? String(telefono).trim() : '';
 
-  // Process Telefono
-  let processedTelefono = telefono ? String(telefono).trim() : '';
-  if (processedTelefono) {
-    processedTelefono = processedTelefono.replace(/\D/g, '');
-  }
+  // REMOVED DNI Validation block:
+  // if (!finalDni || finalDni.length !== 8) { ... }
 
-  // DNI Validation (Assuming DNI is mandatory)
-  if (!processedDni || processedDni.length !== 8) {
-    const cliente = await model.getById(id); // Fetch for re-rendering
-    return res.render('clientes/edit', {
-      error: 'El DNI debe tener 8 dígitos numéricos.',
-      formData: req.body,
-      cliente: cliente
-    });
-  }
-
-  // Telefono Validation (Optional, but if provided, must be valid)
-  if (processedTelefono && processedTelefono.length !== 9) {
-    const cliente = await model.getById(id); // Fetch for re-rendering
-    return res.render('clientes/edit', {
-      error: 'El Teléfono debe tener 9 dígitos numéricos.',
-      formData: req.body,
-      cliente: cliente
-    });
-  }
+  // REMOVED Telefono Validation block:
+  // if (finalTelefono && finalTelefono.length !== 9) { ... }
 
   try {
-    // Potentially check DNI uniqueness again if it can be changed and needs to be unique
-    // For now, focusing on format validation as per previous structure.
-    await model.updateCliente(id, { nombre, apellido, dni: processedDni, telefono: processedTelefono, correo });
+    await model.updateCliente(id, { nombre, apellido, dni: finalDni, telefono: finalTelefono, correo });
     res.redirect("/clientes");
   } catch (error) {
     console.error("Error al actualizar cliente:", error);

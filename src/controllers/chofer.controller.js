@@ -8,37 +8,16 @@ const create = async (req, res) => {
 const store = async (req, res) => {
   const { username, password, nombre, apellido, dni, telefono, email } = req.body;
 
-  // Process DNI
-  let processedDni = dni ? String(dni).trim() : '';
-  if (processedDni) {
-    processedDni = processedDni.replace(/\D/g, '');
-  }
+  // Basic trimming
+  const finalDni = dni ? String(dni).trim() : '';
+  const finalTelefono = telefono ? String(telefono).trim() : '';
 
-  // Process Telefono
-  let processedTelefono = telefono ? String(telefono).trim() : '';
-  if (processedTelefono) {
-    processedTelefono = processedTelefono.replace(/\D/g, '');
-  }
-
-  // DNI Validation (Assuming DNI is mandatory)
-  if (!processedDni || processedDni.length !== 8) {
-    return res.render('choferes/create', {
-      error: 'El DNI debe tener 8 dígitos numéricos.',
-      formData: req.body
-    });
-  }
-
-  // Telefono Validation (Optional, but if provided, must be valid)
-  if (processedTelefono && processedTelefono.length !== 9) {
-    return res.render('choferes/create', {
-      error: 'El Teléfono debe tener 9 dígitos numéricos.',
-      formData: req.body
-    });
-  }
+  // REMOVED DNI Validation block
+  // REMOVED Telefono Validation block
 
   try {
     const userId = await model.createUser(username, password);
-    await model.createChofer({ userId, nombre, apellido, dni: processedDni, telefono: processedTelefono, email });
+    await model.createChofer({ userId, nombre, apellido, dni: finalDni, telefono: finalTelefono, email });
     res.redirect('/choferes');
   } catch (error) {
     console.error("Error al crear chofer:", error);
@@ -69,39 +48,14 @@ const update = async (req, res) => {
   const { nombre, apellido, dni, telefono, email } = req.body;
   const choferId = req.params.id;
 
-  // Process DNI
-  let processedDni = dni ? String(dni).trim() : '';
-  if (processedDni) {
-    processedDni = processedDni.replace(/\D/g, '');
-  }
+  // Basic trimming
+  const finalDni = dni ? String(dni).trim() : '';
+  const finalTelefono = telefono ? String(telefono).trim() : '';
 
-  // Process Telefono
-  let processedTelefono = telefono ? String(telefono).trim() : '';
-  if (processedTelefono) {
-    processedTelefono = processedTelefono.replace(/\D/g, '');
-  }
+  // REMOVED DNI Validation block
+  // REMOVED Telefono Validation block
 
-  // DNI Validation (Assuming DNI is mandatory)
-  if (!processedDni || processedDni.length !== 8) {
-    const chofer = await model.getById(choferId);
-    return res.render('choferes/edit', {
-      error: 'El DNI debe tener 8 dígitos numéricos.',
-      formData: req.body,
-      chofer: chofer
-    });
-  }
-
-  // Telefono Validation (Optional, but if provided, must be valid)
-  if (processedTelefono && processedTelefono.length !== 9) {
-    const chofer = await model.getById(choferId);
-    return res.render('choferes/edit', {
-      error: 'El Teléfono debe tener 9 dígitos numéricos.',
-      formData: req.body,
-      chofer: chofer
-    });
-  }
-
-  await model.updateChofer(choferId, { nombre, apellido, dni: processedDni, telefono: processedTelefono, email });
+  await model.updateChofer(choferId, { nombre, apellido, dni: finalDni, telefono: finalTelefono, email });
   res.redirect('/choferes');
 };
 
