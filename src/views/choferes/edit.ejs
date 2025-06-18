@@ -14,13 +14,11 @@
   <div class="form-group">
     <label class="form-label">DNI:</label>
     <input class="form-input form-input-text" type="text" name="dni" value="<%= chofer.dni %>" required maxlength="8">
-    <span class="error-text" id="dni-error"></span>
   </div>
 
   <div class="form-group">
     <label class="form-label">Teléfono:</label>
     <input class="form-input form-input-text" type="text" name="telefono" value="<%= chofer.telefono %>" maxlength="9">
-    <span class="error-text" id="telefono-error"></span>
   </div>
 
   <div class="form-group">
@@ -32,38 +30,4 @@
 </form>
 
 <a class="action-link back-link" href="/choferes">Volver</a>
-
-
-<script>
-  const form = document.querySelector('.form-styled');
-  const dniInput = form.querySelector('input[name="dni"]');
-  const telefonoInput = form.querySelector('input[name="telefono"]');
-  const dniError = document.getElementById('dni-error');
-  const telefonoError = document.getElementById('telefono-error');
-
-  form.addEventListener('submit', function(event) {
-    let isValid = true;
-    dniError.textContent = '';
-    telefonoError.textContent = '';
-
-    const dniValue = dniInput.value.trim();
-    const telefonoValue = telefonoInput.value.trim();
-
-    // DNI validation
-    if (dniValue && !/^\\d{8}$/.test(dniValue)) {
-      dniError.textContent = 'El DNI debe tener 8 dígitos numéricos.';
-      isValid = false;
-    }
-
-    // Telefono validation (only if a value is entered)
-    if (telefonoValue && !/^\\d{9}$/.test(telefonoValue)) {
-      telefonoError.textContent = 'El Teléfono debe tener 9 dígitos numéricos.';
-      isValid = false;
-    }
-
-    if (!isValid) {
-      event.preventDefault();
-    }
-  });
-</script>
 
