@@ -1,0 +1,41 @@
+<h1 class="page-title">Lista de Gerentes (<%= estado %>)</h1>
+
+<div class="filter-links-group">
+  <a class="action-button create-button" href="/gerentes/create">Agregar Gerente</a> |
+  <a class="filter-link" href="/gerentes?estado=activo">Activos</a> |
+  <a class="filter-link" href="/gerentes?estado=suspendido">Suspendidos</a>
+</div>
+
+<table class="content-table">
+  <thead class="table-header">
+    <tr>
+      <th>Nombre</th>
+      <th>Apellido</th>
+      <th>Correo</th>
+      <th>Usuario</th>
+      <th>Estado</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% gerentes.forEach(gerente => { %>
+      <tr>
+        <td><a class="action-link" href="/gerentes/<%= gerente.id %>"><%= gerente.nombre %></a></td>
+        <td><%= gerente.apellido %></td>
+        <td><%= gerente.email %></td>
+        <td><%= gerente.username %></td>
+        <td><%= gerente.estado %></td>
+        <td>
+          <a class="action-link" href="/gerentes/<%= gerente.id %>/edit">Editar</a>
+          <form class="status-form" method="POST" action="/gerentes/<%= gerente.id %>/estado?_method=PUT">
+            <select class="form-input form-input-select status-select" name="estado" onchange="this.form.submit()">
+              <option value="activo" <%= gerente.estado === 'activo' ? 'selected' : '' %>>Activo</option>
+              <option value="suspendido" <%= gerente.estado === 'suspendido' ? 'selected' : '' %>>Suspendido</option>
+              <option value="eliminado" <%= gerente.estado === 'eliminado' ? 'selected' : '' %>>Eliminado</option>
+            </select>
+          </form>
+        </td>
+      </tr>
+    <% }) %>
+  </tbody>
+</table>

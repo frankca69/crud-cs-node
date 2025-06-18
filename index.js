@@ -30,6 +30,8 @@ app.use(require("./src/routes/main.router"));
 app.use("/admins", require("./src/routes/admin.router"));
 app.use("/choferes", require("./src/routes/chofer.router"));
 app.use("/clientes", require("./src/routes/cliente.router"));
+const gerenteRoutes = require('./src/routes/gerente.router');
+app.use('/gerentes', gerenteRoutes);
 
 const PORT = process.env.PORT || 3000;
 
