@@ -30,11 +30,11 @@ app.use(require("./src/routes/main.router"));
 app.use("/admins", require("./src/routes/admin.router"));
 app.use("/choferes", require("./src/routes/chofer.router"));
 app.use("/clientes", require("./src/routes/cliente.router"));
-const gerenteRoutes = require('./src/routes/gerente.router');
-app.use('/gerentes', gerenteRoutes);
+app.use('/gerentes', require('./src/routes/gerente.router'));
 
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en: http://localhost:${PORT}`);
 });
+

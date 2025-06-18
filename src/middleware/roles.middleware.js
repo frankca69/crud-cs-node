@@ -1,3 +1,4 @@
+//Frank
 function tieneRol(...rolesPermitidos) {
   return (req, res, next) => {
     const rolUsuario = req.session?.user?.role;

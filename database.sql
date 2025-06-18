@@ -77,3 +77,4 @@ CREATE TABLE reservas (
     tipo_pago VARCHAR(20) CHECK (tipo_pago IN ('efectivo', 'virtual')),
     estado VARCHAR(20) DEFAULT 'espera' CHECK (estado IN ('espera', 'confirmada', 'notificada', 'finalizada', 'eliminada'))
 );
+
