@@ -8,14 +8,17 @@ const create = async (req, res) => {
 const store = async (req, res) => {
   const { username, password, nombre, apellido, dni, telefono, email } = req.body;
 
+  const trimmedDni = dni ? dni.trim() : '';
+  const trimmedTelefono = telefono ? telefono.trim() : '';
+
   // Server-side validation
-  if (dni && !/^\d{8}$/.test(dni)) {
+  if (trimmedDni && !/^\d{8}$/.test(trimmedDni)) {
     return res.render('choferes/create', {
       error: 'El DNI debe tener 8 dígitos numéricos.',
       formData: req.body
     });
   }
-  if (telefono && telefono.trim() !== '' && !/^\d{9}$/.test(telefono)) {
+  if (trimmedTelefono && !/^\d{9}$/.test(trimmedTelefono)) {
     return res.render('choferes/create', {
       error: 'El Teléfono debe tener 9 dígitos numéricos.',
       formData: req.body
@@ -24,7 +27,7 @@ const store = async (req, res) => {
 
   try {
     const userId = await model.createUser(username, password);
-    await model.createChofer({ userId, nombre, apellido, dni, telefono, email });
+    await model.createChofer({ userId, nombre, apellido, dni: trimmedDni, telefono: trimmedTelefono, email }); // Use trimmed versions
     res.redirect('/choferes');
   } catch (error) {
     console.error("Error al crear chofer:", error);
@@ -55,8 +58,11 @@ const update = async (req, res) => {
   const { nombre, apellido, dni, telefono, email } = req.body;
   const choferId = req.params.id;
 
+  const trimmedDni = dni ? dni.trim() : '';
+  const trimmedTelefono = telefono ? telefono.trim() : '';
+
   // Server-side validation
-  if (dni && !/^\d{8}$/.test(dni)) {
+  if (trimmedDni && !/^\d{8}$/.test(trimmedDni)) {
     const chofer = await model.getById(choferId);
     return res.render('choferes/edit', {
       error: 'El DNI debe tener 8 dígitos numéricos.',
@@ -64,7 +70,7 @@ const update = async (req, res) => {
       chofer: chofer
     });
   }
-  if (telefono && telefono.trim() !== '' && !/^\d{9}$/.test(telefono)) {
+  if (trimmedTelefono && !/^\d{9}$/.test(trimmedTelefono)) {
     const chofer = await model.getById(choferId);
     return res.render('choferes/edit', {
       error: 'El Teléfono debe tener 9 dígitos numéricos.',
@@ -73,7 +79,7 @@ const update = async (req, res) => {
     });
   }
 
-  await model.updateChofer(choferId, { nombre, apellido, dni, telefono, email });
+  await model.updateChofer(choferId, { nombre, apellido, dni: trimmedDni, telefono: trimmedTelefono, email }); // Use trimmed versions
   res.redirect('/choferes');
 };
 

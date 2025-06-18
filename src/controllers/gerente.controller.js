@@ -14,14 +14,17 @@ const create = async (req, res) => {
 const store = async (req, res) => {
   const { username, password, nombre, apellido, dni, telefono, email } = req.body;
 
+  const trimmedDni = dni ? dni.trim() : '';
+  const trimmedTelefono = telefono ? telefono.trim() : '';
+
   // Server-side validation
-  if (dni && !/^\d{8}$/.test(dni)) {
+  if (trimmedDni && !/^\d{8}$/.test(trimmedDni)) {
     return res.render('gerentes/create', {
       error: 'El DNI debe tener 8 dígitos numéricos.',
       formData: req.body
     });
   }
-  if (telefono && telefono.trim() !== '' && !/^\d{9}$/.test(telefono)) {
+  if (trimmedTelefono && !/^\d{9}$/.test(trimmedTelefono)) {
     return res.render('gerentes/create', {
       error: 'El Teléfono debe tener 9 dígitos numéricos.',
       formData: req.body
@@ -30,7 +33,7 @@ const store = async (req, res) => {
 
   try {
     const userId = await model.createUser(username, password);
-    await model.createGerente({ userId, nombre, apellido, dni, telefono, email });
+    await model.createGerente({ userId, nombre, apellido, dni: trimmedDni, telefono: trimmedTelefono, email }); // Use trimmed versions
     res.redirect('/gerentes');
   } catch (error) {
     console.error("Error al crear gerente:", error);
@@ -54,8 +57,11 @@ const update = async (req, res) => {
   const { nombre, apellido, dni, telefono, email } = req.body;
   const gerenteId = req.params.id;
 
+  const trimmedDni = dni ? dni.trim() : '';
+  const trimmedTelefono = telefono ? telefono.trim() : '';
+
   // Server-side validation
-  if (dni && !/^\d{8}$/.test(dni)) {
+  if (trimmedDni && !/^\d{8}$/.test(trimmedDni)) {
     const gerente = await model.getById(gerenteId);
     return res.render('gerentes/edit', {
       error: 'El DNI debe tener 8 dígitos numéricos.',
@@ -63,7 +69,7 @@ const update = async (req, res) => {
       gerente: gerente
     });
   }
-  if (telefono && telefono.trim() !== '' && !/^\d{9}$/.test(telefono)) {
+  if (trimmedTelefono && !/^\d{9}$/.test(trimmedTelefono)) {
     const gerente = await model.getById(gerenteId);
     return res.render('gerentes/edit', {
       error: 'El Teléfono debe tener 9 dígitos numéricos.',
@@ -72,7 +78,7 @@ const update = async (req, res) => {
     });
   }
 
-  await model.updateGerente(gerenteId, { nombre, apellido, dni, telefono, email });
+  await model.updateGerente(gerenteId, { nombre, apellido, dni: trimmedDni, telefono: trimmedTelefono, email }); // Use trimmed versions
   res.redirect('/gerentes');
 };
 
